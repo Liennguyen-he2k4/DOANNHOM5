@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang học viên{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Chào mừng học viên {{ user.username }}</h1>
+  <ul class="list-group">
+    <li class="list-group-item"><a href="{% url 'class_list' %}">Xem danh sách lớp</a></li>
+    <li class="list-group-item"><a href="{% url 'class_register' %}">Đăng ký lớp</a></li>
+    <li class="list-group-item"><a href="{% url 'registered_classes' %}">Lớp đã đăng ký</a></li>
+    <li class="list-group-item"><a href="{% url 'make_payment' %}">Thanh toán</a></li>
+    <li class="list-group-item"><a href="{% url 'view_scores' %}">Xem điểm</a></li>
+  </ul>
+{% endblock %}

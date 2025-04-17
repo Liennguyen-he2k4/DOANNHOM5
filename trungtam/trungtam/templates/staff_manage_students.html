@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Quản lý học viên{% endblock %}
+{% block content %}
+<h2>Quản lý học viên - {{ classroom.name }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Thêm học viên vào lớp</label>
+        <select name="student_id" class="form-select">
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.username }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Thêm học viên</button>
+</form>
+
+<hr>
+
+<h4>Danh sách học viên trong lớp</h4>
+<ul class="list-group mt-3">
+    {% for student in classroom_students %}
+        <li class="list-group-item">{{ student.username }}</li>
+    {% empty %}
+        <li class="list-group-item">Không có học viên nào.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

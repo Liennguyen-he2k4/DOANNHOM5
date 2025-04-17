@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Trung Tâm Đào Tạo{% endblock %}</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'dashboard' %}">Trung Tâm</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+
+          {% if user.is_authenticated %}
+            {% if user.role == 'admin' %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'admin_manage_users' %}">Quản lý người dùng</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'admin_assign_role' %}">Gán vai trò</a></li>
+
+            {% elif user.role == 'giao_vu' %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'staff_create_class' %}">Tạo lớp</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'staff_manage_students' %}">Quản lý học viên</a></li>
+
+            {% elif user.role == 'giang_vien' %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'attendance_mark' %}">Điểm danh</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'enter_score' %}">Nhập điểm</a></li>
+
+            {% elif user.role == 'hoc_vien' %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'class_list' %}">Danh sách lớp</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'registered_classes' %}">Lớp đã đăng ký</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'view_scores' %}">Xem điểm</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'make_payment' %}">Thanh toán học phí</a></li>
+            {% endif %}
+
+            <li class="nav-item"><a class="nav-link text-danger" href="{% url 'logout' %}">Đăng xuất</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Đăng nhập</a></li>
+          {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+          <span class="navbar-text text-white">
+            Xin chào, {{ user.username }} ({{ user.get_role_display }})
+          </span>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- JS Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

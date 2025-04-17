@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Đăng ký lớp học{% endblock %}
+{% block content %}
+<h2>Đăng ký lớp học</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Chọn lớp học</label>
+        <select name="class_id" class="form-select">
+            {% for class in available_classes %}
+            <option value="{{ class.id }}">{{ class.name }} - {{ class.subject }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Đăng ký</button>
+</form>
+{% endblock %}
