@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Danh sách lớp học{% endblock %}
+{% block content %}
+<h2>Danh sách lớp học</h2>
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Tên lớp</th>
+            <th>Mô tả</th>
+            <th>Giảng viên</th>
+            <th>Thời gian</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lop in classes %}
+        <tr>
+            <td>{{ lop.ten_lop }}</td>
+            <td>{{ lop.mo_ta }}</td>
+            <td>{{ lop.giang_vien.username }}</td>
+            <td>{{ lop.thoi_gian_bat_dau }} - {{ lop.thoi_gian_ket_thuc }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">Không có lớp học nào.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

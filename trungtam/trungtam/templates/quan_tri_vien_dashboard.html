@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Trang quản trị viên{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Chào mừng quản trị viên {{ user.username }}</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Tổng quan</h5>
+        </div>
+        <div class="card-body">
+            {% if stats %}
+                <p><strong>Số lớp học:</strong> {{ stats.total_classes|default:0 }}</p>
+                <p><strong>Tổng số người dùng:</strong> {{ stats.total_users|default:0 }}</p>
+                <p><strong>Quản trị viên:</strong> {{ stats.admin_users|default:0 }}</p>
+                <p><strong>Giáo vụ:</strong> {{ stats.staff_users|default:0 }}</p>
+                <p><strong>Giảng viên:</strong> {{ stats.teacher_users|default:0 }}</p>
+                <p><strong>Học viên:</strong> {{ stats.student_users|default:0 }}</p>
+                <p><strong>Giám đốc:</strong> {{ stats.director_users|default:0 }}</p>
+            {% else %}
+                <div class="alert alert-warning">Hiện tại không có dữ liệu thống kê.</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Chức năng quản trị</h5>
+        </div>
+        <div class="card-body">
+            <div class="d-grid gap-2">
+                <a href="{% url 'assign_role' %}" class="btn btn-primary">Gán vai trò</a>
+                <a href="{% url 'manage_users' %}" class="btn btn-primary">Quản lý người dùng</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

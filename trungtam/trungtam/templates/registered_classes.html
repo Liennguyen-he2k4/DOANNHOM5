@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Lớp đã đăng ký{% endblock %}
+{% block content %}
+<h2>Các lớp đã đăng ký</h2>
+<ul class="list-group">
+    {% for reg in registrations %}
+    <li class="list-group-item">{{ reg.lop_hoc.ten_lop }}</li>
+    {% empty %}
+    <li class="list-group-item">Bạn chưa đăng ký lớp học nào.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
