@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Thanh toán học phí{% endblock %}
+{% block content %}
+<h2>Thanh toán học phí</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Lớp học</th>
+            <th>Số tiền</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fee in fees %}
+        <tr>
+            <td>{{ fee.lop_hoc.ten_lop }}</td>
+            <td>{{ fee.so_tien }} VNĐ</td>
+            <td>
+                {% if fee.ngay_thanh_toan %}
+                    <span class="text-success">Đã thanh toán vào {{ fee.ngay_thanh_toan }}</span>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="fee_id" value="{{ fee.id }}">
+                        <button type="submit" class="btn btn-primary btn-sm">Thanh toán</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Không có học phí cần thanh toán.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

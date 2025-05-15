@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Quản lý người dùng{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Quản lý người dùng</h2>
+
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mb-3">Quay lại</a>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if users %}
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên đăng nhập</th>
+                    <th>Vai trò</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>
+                        {% if user.role == 'hoc_vien' %}Học viên
+                        {% elif user.role == 'giang_vien' %}Giảng viên
+                        {% elif user.role == 'giao_vu' %}Giáo vụ
+                        {% elif user.role == 'admin' %}Quản trị viên
+                        {% elif user.role == 'giam_doc' %}Giám đốc
+                        {% else %}{{ user.role }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'assign_role' %}?user_id={{ user.id }}" class="btn btn-sm btn-warning">Sửa vai trò</a>
+                        <form method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng {{ user.username }}?')">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning">Hiện tại không có người dùng nào.</div>
+    {% endif %}
+</div>
+{% endblock %}

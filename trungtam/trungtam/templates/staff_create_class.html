@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Tạo lớp học{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Tạo lớp học mới</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" id="create-class-form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Tên lớp</label>
+            <input type="text" name="ten_lop" class="form-control" placeholder="Ví dụ: Tiếng Anh thương mại" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mô tả</label>
+            <textarea name="mo_ta" class="form-control" rows="4" placeholder="Ví dụ: Lớp học tập trung vào kỹ năng giao tiếp cơ bản"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Giảng viên</label>
+            <select name="giang_vien_id" class="form-select" required>
+                <option value="" disabled selected>Chọn giảng viên</option>
+                {% for teacher in teachers %}
+                    <option value="{{ teacher.id }}">{{ teacher.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Thời gian bắt đầu</label>
+            <input type="date" name="thoi_gian_bat_dau" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Thời gian kết thúc</label>
+            <input type="date" name="thoi_gian_ket_thuc" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Tạo lớp</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('create-class-form').addEventListener('submit', function(e) {
+    const startDate = new Date(document.querySelector('input[name="thoi_gian_bat_dau"]').value);
+    const endDate = new Date(document.querySelector('input[name="thoi_gian_ket_thuc"]').value);
+    if (endDate < startDate) {
+        e.preventDefault();
+        alert('Ngày kết thúc phải sau ngày bắt đầu.');
+    }
+});
+</script>
+{% endblock %}

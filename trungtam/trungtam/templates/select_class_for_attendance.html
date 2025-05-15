@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Chọn lớp để điểm danh{% endblock %}
+{% block content %}
+<h2>Chọn lớp để điểm danh</h2>
+<ul class="list-group">
+    {% for class in classes %}
+    <li class="list-group-item">
+        <a href="{% url 'attendance_mark' class.id %}">{{ class.ten_lop }}</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item">Bạn chưa được phân công lớp nào.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
